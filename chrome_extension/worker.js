@@ -1,17 +1,17 @@
 chrome.runtime.onInstalled.addListener(function () {
   chrome.contextMenus.create(
     {
-      title: "Copy to Colab",
+      title: "Synthesize",
       contexts: ['selection'],
       id: 'selection',
     },
   );
 
   chrome.contextMenus.onClicked.addListener((info, _tab) => {
-    openColab(info.selectionText)
+    synthesize(info.selectionText)
   })
 });
 
-function openColab(text) {
-  console.log("Opening Colab with the following snippet:" + text)
+function synthesize(text) {
+  console.log("Synthesizing with the following snippet:" + text)
 }
