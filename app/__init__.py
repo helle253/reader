@@ -1,3 +1,4 @@
+from datetime import timedelta
 import os
 from dotenv import load_dotenv
 from flask import Config, Flask
@@ -27,6 +28,8 @@ def create_app(config_class=Config):
     conninfo = conninfo.replace("postgresql", "postgresql+psycopg")
     app.config['SQLALCHEMY_DATABASE_URI'] = conninfo
     app.config["JWT_SECRET_KEY"] = os.getenv('JWT_SECRET_KEY')
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=1)
+    app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
     db.init_app(app)
     migrate.init_app(app, db)
     jwt.init_app(app)
