@@ -1,9 +1,7 @@
-from passlib.hash import sha256_crypt;
-from persistence.db import open_connection;
 from urllib.parse import urlsplit;
 from app import db;
 
-class AudioClipModel(db.Model):
+class AudioClip(db.Model):
   __tablename__ = 'audio_clips'
   id = db.Column(db.Integer, primary_key=True)
   source_domain = db.Column(db.String(255))

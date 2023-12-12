@@ -31,8 +31,8 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
     jwt.init_app(app)
 
-    from app.models.user import UserModel
-    from app.models.audio_clip import AudioClipModel
+    from app.models.user import User
+    from app.models.audio_clip import AudioClip
 
     app.register_blueprint(auth_bp)
     return app

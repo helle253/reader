@@ -1,9 +1,10 @@
-from werkzeug.security import check_password_hash, generate_password_hash;
+from werkzeug.security import check_password_hash, generate_password_hash
+from app.models.audio_clip import AudioClip;
 
 from persistence.db import open_connection;
 from app import db;
 
-class UserModel(db.Model):
+class User(db.Model):
   __tablename__ = 'users'
   id = db.Column(db.Integer, primary_key=True)
   email = db.Column(db.String(255), unique=True)
@@ -13,7 +14,6 @@ class UserModel(db.Model):
     self.email = email
     self.password_digest = password_digest
 
-class User(UserModel):
   @classmethod
   def create(cls, email: str, password: str) -> 'User':
     with open_connection() as conn:
@@ -40,9 +40,11 @@ class User(UserModel):
         cursor.execute("UPDATE users SET password_digest = %s WHERE email = %s", (new_digest, self.email))
     self.password_digest = new_digest
 
-
   def change_email(self, new_email: str) -> None:
     with open_connection() as conn:
       with conn.cursor() as cursor:
         cursor.execute("UPDATE users SET email = %s WHERE email = %s", (new_email, self.email))
     self.email = new_email
+
+  def audio_clips(self):
+    AudioClip.query.filter_by(owner_id=self.id).all
