@@ -1,4 +1,5 @@
-from passlib.hash import sha256_crypt;
+from werkzeug.security import check_password_hash, generate_password_hash;
+
 from persistence.db import open_connection;
 from app import db;
 
@@ -17,7 +18,7 @@ class User(UserModel):
   def create(cls, email: str, password: str) -> 'User':
     with open_connection() as conn:
       with conn.cursor() as cursor:
-        digest = sha256_crypt.hash(password)
+        digest = generate_password_hash(password)
         cursor.execute("INSERT INTO users (email, password_digest) VALUES (%s, %s)", (email, digest))
       conn.commit()
     return cls(email, digest)
@@ -28,12 +29,12 @@ class User(UserModel):
         with conn.cursor() as cursor:
           cursor.execute("SELECT password_digest FROM users WHERE email = %s", (email,))
           row = cursor.fetchone()
-          if not row or sha256_crypt.verify(password, row[0]):
+          if not row or check_password_hash(row[0], password):
             raise Exception("Invalid email or password")
           return cls(email, row[0])
 
   def change_password(self, new_password: str) -> None:
-    new_digest = sha256_crypt.hash(new_password)
+    new_digest = generate_password_hash(new_password)
     with open_connection() as conn:
       with conn.cursor() as cursor:
         cursor.execute("UPDATE users SET password_digest = %s WHERE email = %s", (new_digest, self.email))
