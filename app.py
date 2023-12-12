@@ -1,8 +1,10 @@
 from dotenv import load_dotenv
 from flask import Flask, request
-from flask_migratepg import MigratePg
+from flask_migrate import Migrate
 from pyht import Client
 import os
+
+from persistence.db import DB
 
 load_dotenv()
 
@@ -11,11 +13,9 @@ ht_client = Client(
     api_key=os.getenv("PLAY_HT_API_KEY"),
 )
 app = Flask(__name__)
-app.config.from_mapping(
-    MIGRATIONS_PATH=os.path.abspath('database/migrations'),
-    PSYCOPG_CONNINFO=f"dbname={os.getenv("DB_NAME")} host={os.getenv("DB_HOST")} user={os.getenv("DB_USER")} password={os.getenv("DB_PASSWORD")}"
-)
-MigratePg(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DB_CONNECTION")
+DB.initialize(app)
+migrate = Migrate(app, DB.get())
 
 @app.route("/")
 def hello():
@@ -33,3 +33,4 @@ def web_audio_create():
 @app.get("/web/audio/<id>")
 def web_audio_show(id):
     return f"Audio {id} retrieved!"
+
