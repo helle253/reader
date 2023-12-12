@@ -1,24 +1,29 @@
-# save this as app.py
-from flask import Flask
+from dotenv import load_dotenv
+from flask import Flask, request
+from pyht import Client
+import os
 
+load_dotenv()
+
+ht_client = Client(
+    user_id=os.getenv("PLAY_HT_USER_ID"),
+    api_key=os.getenv("PLAY_HT_API_KEY"),
+)
 app = Flask(__name__)
 
 @app.route("/")
 def hello():
     return "Hello, World!"
 
-@app.route("/web/audio", methods = ['GET', 'POST'])
-def audio_index():
-    return "Audio created!"
+@app.get("/web/audio")
+def web_audio_index():
+    return "Index retrieved"
 
-@app.route("/web/audio/<ID>", methods = ['GET'])
-def get_audio(ID):
-    return "Audio {ID} retrieved!"
+@app.post("/web/audio")
+def web_audio_create():
+    text = request.get_json()['text']
+    return f"Audio {request.get_json()['text']} created!"
 
-@app.route("/files/audio", methods = ['GET', 'POST'])
-def audio_index():
-    return "Audio created!"
-
-@app.route("/files/audio/<ID>", methods = ['GET'])
-def get_audio(ID):
-    return "Audio {ID} retrieved!"
+@app.get("/web/audio/<id>")
+def web_audio_show(id):
+    return f"Audio {id} retrieved!"
