@@ -47,4 +47,4 @@ class User(db.Model):
     self.email = new_email
 
   def audio_clips(self):
-    AudioClip.query.filter_by(owner_id=self.id).all
+    return AudioClip.query.filter_by(owner_id=self.id).all()
