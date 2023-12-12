@@ -8,8 +8,9 @@ auth_bp = Blueprint('auth', __name__)
 
 @auth_bp.post('/login')
 def login():
-  email = request.json.get("email", None)
-  password = request.json.get("password", None)
+  json = request.get_json();
+  email = json.get("email", None)
+  password = json.get("password", None)
   user = User.query.filter_by(email=email).first()
   if user and check_password_hash(user.password_digest, password):
     token = create_access_token(identity=user.id)
@@ -19,8 +20,9 @@ def login():
 
 @auth_bp.post('/register')
 def register():
-  email = request.json.get("email", None)
-  password = request.json.get("password", None)
+  json = request.get_json();
+  email = json.get("email", None)
+  password = json.get("password", None)
   existing_user = User.query.filter_by(email=email).first()
   if not existing_user:
     user = User.create(email, password)
