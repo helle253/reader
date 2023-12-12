@@ -1,5 +1,5 @@
 from urllib.parse import urlsplit;
-from app import db;
+from . import db;
 
 class AudioClip(db.Model):
   __tablename__ = 'audio_clips'
