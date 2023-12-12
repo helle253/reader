@@ -25,4 +25,5 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
 
     from app.models.user import UserModel
+    from app.models.audio_clip import AudioClipModel
     return app
