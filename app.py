@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 from flask import Flask, request
+from flask_migratepg import MigratePg
 from pyht import Client
 import os
 
@@ -10,6 +11,11 @@ ht_client = Client(
     api_key=os.getenv("PLAY_HT_API_KEY"),
 )
 app = Flask(__name__)
+app.config.from_mapping(
+    MIGRATIONS_PATH=os.path.abspath('database/migrations'),
+    PSYCOPG_CONNINFO=f"dbname={os.getenv("DB_NAME")} host={os.getenv("DB_HOST")} user={os.getenv("DB_USER")} password={os.getenv("DB_PASSWORD")}"
+)
+MigratePg(app)
 
 @app.route("/")
 def hello():
