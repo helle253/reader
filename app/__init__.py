@@ -18,7 +18,9 @@ migrate = Migrate()
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DB_CONNECTION")
+    conninfo = os.getenv("DB_CONNECTION")
+    conninfo = conninfo.replace("postgresql", "postgresql+psycopg")
+    app.config['SQLALCHEMY_DATABASE_URI'] = conninfo
     db.init_app(app)
     migrate.init_app(app, db)
 

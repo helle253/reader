@@ -2,4 +2,4 @@ import os
 import psycopg
 
 def open_connection() -> psycopg.connection:
-  return psycopg.connect(os.getenv('DB_CONNECTION'));
+  return psycopg.connect(conninfo=os.getenv('DB_CONNECTION'));
