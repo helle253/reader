@@ -37,6 +37,6 @@ def create_app(config_class=Config):
     from app.models.user import User
     from app.models.audio_clip import AudioClip
 
-    app.register_blueprint(auth_bp)
+    app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(audio_bp)
     return app
