@@ -3,9 +3,9 @@ from dotenv import load_dotenv
 from flask import Config, Flask
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
-from flask_sqlalchemy import SQLAlchemy
 from pyht import Client
 
+from app.models import db
 from app.routes.auth import auth_bp
 from app.routes.audio import audio_bp
 
@@ -16,7 +16,6 @@ ht_client = Client(
     api_key=os.getenv("PLAY_HT_API_KEY"),
 )
 
-db = SQLAlchemy()  # done here so that db is importable
 migrate = Migrate()
 jwt = JWTManager()
 

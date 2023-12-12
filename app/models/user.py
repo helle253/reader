@@ -1,7 +1,7 @@
 from werkzeug.security import check_password_hash, generate_password_hash
 from app.models.audio_clip import AudioClip;
 
-from persistence.db import open_connection;
+from app.persistence.connector import open_connection;
 from app import db;
 
 class User(db.Model):
