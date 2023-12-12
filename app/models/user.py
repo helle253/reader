@@ -31,3 +31,17 @@ class User(UserModel):
           if not row or sha256_crypt.verify(password, row[0]):
             raise Exception("Invalid email or password")
           return cls(email, row[0])
+
+  def change_password(self, new_password: str) -> None:
+    new_digest = sha256_crypt.hash(new_password)
+    with open_connection() as conn:
+      with conn.cursor() as cursor:
+        cursor.execute("UPDATE users SET password_digest = %s WHERE email = %s", (new_digest, self.email))
+    self.password_digest = new_digest
+
+
+  def change_email(self, new_email: str) -> None:
+    with open_connection() as conn:
+      with conn.cursor() as cursor:
+        cursor.execute("UPDATE users SET email = %s WHERE email = %s", (new_email, self.email))
+    self.email = new_email
