@@ -6,4 +6,4 @@ CREATE TABLE foo.foo (
     path TEXT NOT NULL,
 );
 
-INSERT INTO ops (op) VALUES ('migration V0001__Initial_schema.sql');
+INSERT INTO ops (op) VALUES ('migration V00001__Initial_schema.sql');
