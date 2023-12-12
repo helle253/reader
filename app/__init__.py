@@ -7,6 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 from pyht import Client
 
 from app.routes.auth import auth_bp
+from app.routes.audio import audio_bp
 
 load_dotenv()
 
@@ -35,4 +36,5 @@ def create_app(config_class=Config):
     from app.models.audio_clip import AudioClip
 
     app.register_blueprint(auth_bp)
+    app.register_blueprint(audio_bp)
     return app
