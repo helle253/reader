@@ -20,7 +20,7 @@ def login():
 
 @auth_bp.post('/register')
 def register():
-  parsed = json.loads(request.data);
+  parsed = json.loads(request.data)
   email = parsed["email"] or None
   password = parsed["password"] or None
   existing_user = User.query.filter_by(email=email).first()
