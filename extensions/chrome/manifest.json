@@ -12,7 +12,7 @@
     "default_icon": "icon128.png"
   },
   "background": {
-    "service_worker": "worker.js"    
+    "service_worker": "worker.js"
   },
-  "permissions": ["contextMenus"]
+  "permissions": ["contextMenus", "tabs"]
 }
