@@ -15,5 +15,12 @@
   "background": {
     "service_worker": "worker.js"
   },
-  "permissions": ["contextMenus", "tabs"]
+  "host_permissions": [
+    "http://localhost/*"
+  ],
+  "permissions": [
+    "contextMenus",
+    "cookies",
+    "tabs"
+  ]
 }
