@@ -1,0 +1,14 @@
+body {
+    min-width: 500px;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+}
+
+button {
+    margin: 10px;
+    min-width: fit-content;
+    white-space: nowrap;
+}
