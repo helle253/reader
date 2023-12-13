@@ -3,8 +3,8 @@ body {
     min-height: 500px;
     display: flex;
     flex-direction: column;
-    align-content: center;
-    justify-content: center;
+    align-content: start;
+    justify-content: start;
 }
 
 button {
