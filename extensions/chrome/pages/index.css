@@ -1,13 +1,12 @@
 body {
-    min-width: 500px;
-    min-height: 500px;
     display: flex;
     flex-direction: column;
-    align-content: start;
-    justify-content: start;
+    justify-content: center;
+    align-items: center;
 }
 
 button {
     min-width: fit-content;
+    width: 50%;
     white-space: nowrap;
 }
