@@ -3,9 +3,6 @@ from typing import Iterable
 from pyht import Client, TTSOptions
 
 class Synthesizer:
-  options = None
-  client = None
-
   def __init__(self, client: Client | None = None, options: TTSOptions | None = None):
     self.client = client or Client(
     user_id=os.getenv("PLAY_HT_USER_ID"),
