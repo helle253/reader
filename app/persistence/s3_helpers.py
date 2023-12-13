@@ -7,10 +7,10 @@ import smart_open
 
 
 class S3UploadProcess:
-  data_incoming: Value[c_bool]
-  fd: TextIOWrapper | None
-  queue: Queue | None
-  uri: str | None
+  data_incoming: Value
+  fd: TextIOWrapper
+  queue: Queue
+  uri: str
 
   def __init__(self, key):
     self.queue = Queue()
