@@ -19,6 +19,7 @@ def index():
 
 @audio_clips_bp.post('/audio_clips')
 @jwt_required()
+@stream_with_context
 def create():
   current_user_id = get_jwt_identity();
   parsed = json.loads(request.data);
@@ -27,16 +28,14 @@ def create():
   domain = parsed_url.netloc
   path = parsed_url.path.replace('/', '-')
   timestamp = datetime.datetime.now().isoformat()
-  key = f'{current_user_id}/{domain}-{path}-{timestamp}.mp3'
+  filename = f'{current_user_id}-{domain}-{path}-{timestamp}.mp3'
 
   text = parsed["text"] or None
   if text is None: raise Exception("Please provide input")
 
   def generator():
-    s3_process = S3UploadProcess(key)
-    s3_process.spawn_worker()
-    for chunk in Synthesizer().synthesize(text):
-      s3_process.queue.put(chunk)
-      yield chunk
-    s3_process.no_more_incoming_data()
-  return stream_with_context(generator)
+    with open(filename, 'wb') as f:
+      for chunk in Synthesizer().synthesize(text):
+        f.write(chunk)
+        yield chunk
+  return generator()
