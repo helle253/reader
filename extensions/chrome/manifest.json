@@ -13,7 +13,8 @@
     "default_popup": "pages/index.html"
   },
   "background": {
-    "service_worker": "worker.js"
+    "service_worker": "worker.js",
+    "type": "module"
   },
   "host_permissions": [
     "http://localhost/*"
