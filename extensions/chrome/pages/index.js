@@ -1,5 +1,5 @@
-import host from '../common/host.js';
-import tokenPairFromCookie from '../common/tokenPairFromCookie.js'
+import host from '../scripts/common/host.js';
+import tokenPairFromCookie from '../scripts/common/tokenPairFromCookie.js'
 
 document.addEventListener("DOMContentLoaded", loadState);
 

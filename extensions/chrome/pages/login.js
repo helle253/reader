@@ -1,4 +1,4 @@
-import host from '../common/host.js';
+import host from '../scripts/common/host.js';
 
 document.getElementById("login").addEventListener("click", login);
 

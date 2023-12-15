@@ -1,4 +1,4 @@
-import tokenPairFromCookie from './common/tokenPairFromCookie.js'
+import tokenPairFromCookie from './scripts/common/tokenPairFromCookie.js'
 
 chrome.runtime.onInstalled.addListener(function () {
   chrome.contextMenus.create(
