@@ -1,19 +1,14 @@
+import host from '../common/host.js';
+import tokenPairFromCookie from '../common/tokenPairFromCookie.js'
+
 document.addEventListener("DOMContentLoaded", loadState);
 
 document.getElementById('logout').addEventListener('click', logout);
 
-let host = "http://localhost:5000"
 var tokenPair;
 
 async function loadState() {
-  const cookie = await chrome.cookies.get({url: host, name: "tokenPair"});
-  if (cookie && cookie.value) {
-    try {
-      tokenPair = JSON.parse(cookie.value);
-    } catch (e) {
-      console.error("Error parsing tokenPair cookie.");
-    }
-  }
+  tokenPair = await tokenPairFromCookie();
 
   updateUI(!!tokenPair)
 }

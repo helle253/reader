@@ -1,3 +1,5 @@
+import tokenPairFromCookie from './common/tokenPairFromCookie.js'
+
 chrome.runtime.onInstalled.addListener(function () {
   chrome.contextMenus.create(
     {
@@ -12,7 +14,10 @@ chrome.runtime.onInstalled.addListener(function () {
   })
 });
 
-function synthesize(text, url) {
+async function synthesize(text, url) {
+  tokenPair = await tokenPairFromCookie();
+  console.log("Synthesizing: " + text + " from " + url);
+
   fetch("http://localhost:5000/audio_clips", {
     method: "POST",
     body: JSON.stringify({
@@ -20,7 +25,8 @@ function synthesize(text, url) {
       source_url: url,
     }),
     headers: {
-      "Content-type": "application/json; charset=UTF-8"
+      "Content-type": "application/json; charset=UTF-8",
+      "Authorization": `Bearer ${tokenPair.access_token}`
     }
   });
 }

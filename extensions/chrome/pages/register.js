@@ -1,4 +1,4 @@
-let host = "http://localhost:5000"
+import host from '../common/host.js';
 
 document.getElementById("register").addEventListener("click", register);
 document.getElementById('password').addEventListener('change', check);
