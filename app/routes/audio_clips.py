@@ -8,16 +8,16 @@ from app.models.user import User
 from app.persistence.s3_helpers import S3UploadProcess
 from app.synthesis.synthesizer import Synthesizer
 
-audio_bp = Blueprint('audio', __name__)
+audio_clips_bp = Blueprint('audio_clips', __name__)
 
-@audio_bp.get('/audio_clips')
+@audio_clips_bp.get('/audio_clips')
 @jwt_required()
 def index():
   current_user_id = get_jwt_identity();
   print(User.query.get(current_user_id).audio_clips())
   return jsonify(audio_clips=User.query.get(current_user_id).audio_clips())
 
-@audio_bp.post('/audio_clips')
+@audio_clips_bp.post('/audio_clips')
 @jwt_required()
 def create():
   current_user_id = get_jwt_identity();

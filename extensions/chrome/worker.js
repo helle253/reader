@@ -13,7 +13,7 @@ chrome.runtime.onInstalled.addListener(function () {
 });
 
 function synthesize(text, url) {
-  fetch("http://localhost:5000/audio", {
+  fetch("http://localhost:5000/audio_clips", {
     method: "POST",
     body: JSON.stringify({
       text: text,
