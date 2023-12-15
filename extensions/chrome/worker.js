@@ -1,4 +1,4 @@
-import tokenPairFromCookie from './scripts/common/tokenPairFromCookie.js'
+import tokenPairFromCookie from './scripts/common/tokenPairFromCookie.js';
 
 chrome.runtime.onInstalled.addListener(function () {
   chrome.contextMenus.create(
@@ -9,13 +9,20 @@ chrome.runtime.onInstalled.addListener(function () {
     },
   );
 
-  chrome.contextMenus.onClicked.addListener((info, tab) => {
-    synthesize(info.selectionText, tab.url)
-  })
+  chrome.contextMenus.onClicked.addListener((_, tab) => {
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      files: ['./scripts/content/synthesize.js']
+    });
+  });
+
+  chrome.runtime.onMessage.addListener((message, _, __) => {
+    synthesize(message.selection, message.url);
+  });
 });
 
 async function synthesize(text, url) {
-  tokenPair = await tokenPairFromCookie();
+  const tokenPair = await tokenPairFromCookie();
   console.log("Synthesizing: " + text + " from " + url);
 
   fetch("http://localhost:5000/audio_clips", {

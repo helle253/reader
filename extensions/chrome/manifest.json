@@ -20,8 +20,10 @@
     "http://localhost/*"
   ],
   "permissions": [
+    "activeTab",
     "contextMenus",
     "cookies",
+    "scripting",
     "tabs"
   ]
 }
