@@ -7,6 +7,7 @@ from flask_jwt_extended import get_jwt_identity, jwt_required
 from app.models.user import User
 from app.persistence.s3_helpers import S3UploadProcess
 from app.synthesis.synthesizer import Synthesizer
+from app.synthesis.text_processing import chunk_text_selection
 
 audio_clips_bp = Blueprint('audio_clips', __name__)
 
@@ -35,7 +36,8 @@ def create():
 
   def generator():
     with open(filename, 'wb') as f:
-      for chunk in Synthesizer().synthesize(text):
-        f.write(chunk)
-        yield chunk
+      for text_chunk in chunk_text_selection(text):
+        for audio_chunk in Synthesizer().synthesize(text_chunk):
+          f.write(audio_chunk)
+          yield audio_chunk
   return generator()
