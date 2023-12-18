@@ -10,7 +10,8 @@ def to_paragraphs(text) -> Iterable[str]:
   return [substr for substr in re.split(r'\n{1,}', text) if substr]
 
 def chunk_paragraph(text) -> Iterable[str]:
-  if len(text) < 2000:
+  max_length = 500
+  if len(text) < max_length:
     yield text
     return
 
@@ -18,7 +19,7 @@ def chunk_paragraph(text) -> Iterable[str]:
 
   chunk = ''
   for sentence in sentences:
-    if len(chunk) + len(sentence) > 2000:
+    if len(chunk) + len(sentence) > max_length:
       yield chunk
       chunk = ''
     chunk += f' {sentence}'
