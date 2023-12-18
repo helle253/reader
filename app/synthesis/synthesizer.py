@@ -20,7 +20,7 @@ class Synthesizer:
       yield chunk
 
   def synth_to_file(self, filename, text):
-    with open(filename, 'wb') as f:
+    with open(filename, 'ab') as f:
       for chunk in chunk_text_selection(text):
         for audio_stream_chunk in self.synthesize(chunk):
           f.write(audio_stream_chunk)

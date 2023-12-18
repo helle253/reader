@@ -35,7 +35,7 @@ def create():
   if text is None: raise Exception("Please provide input")
 
   def generator():
-    with open(filename, 'wb') as f:
+    with open(filename, 'ab') as f:
       for text_chunk in chunk_text_selection(text):
         for audio_chunk in Synthesizer().synthesize(text_chunk):
           f.write(audio_chunk)
