@@ -10,6 +10,4 @@ async function sendSynthesisRequest() {
 
 sendSynthesisRequest();
 
-chrome.contextMenus.onClicked.addListener(async (_, __) => {
-  sendSynthesisRequest();
-});
+chrome.contextMenus.onClicked.addListener(sendSynthesisRequest);
