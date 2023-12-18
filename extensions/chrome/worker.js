@@ -19,11 +19,11 @@ function initializeListeners() {
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
       files: ['./scripts/content/synthesize.js']
-    });
-  });
+    })
 
-  chrome.runtime.onMessage.addListener((message, _, __) => {
-    synthesize(message.selection, message.url);
+    chrome.tabs.sendMessage(tab.id, {type: 'synthesize'}, (response) => {
+      synthesize(response.selection, response.url);
+    });
   });
 }
 

@@ -1,13 +1,13 @@
-async function sendSynthesisRequest() {
-  var selection = window.getSelection().toString();
-  var url = window.location.href;
 
-  chrome.runtime.sendMessage({
-    selection,
-    url,
-  });
-}
 
-sendSynthesisRequest();
+chrome.runtime.onMessage.addListener((msg, __, sendResponse) => {
+  if (msg.type === 'synthesize') {
+    var selection = window.getSelection().toString();
+    var url = window.location.href;
 
-chrome.contextMenus.onClicked.addListener(sendSynthesisRequest);
+    sendResponse({
+      selection,
+      url,
+    });
+  }
+});
