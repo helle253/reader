@@ -1,7 +1,8 @@
-import re
 import os
 from typing import Iterable
 from pyht import Client, TTSOptions
+
+from app.synthesis.text_processing import chunk_text_selection
 
 class Synthesizer:
   def __init__(self, client: Client | None = None, options: TTSOptions | None = None):
@@ -20,5 +21,6 @@ class Synthesizer:
 
   def synth_to_file(self, filename, text):
     with open(filename, 'wb') as f:
-      for chunk in self.synthesize(text):
-        f.write(chunk)
+      for chunk in chunk_text_selection(text):
+        for audio_stream_chunk in self.synthesize(chunk):
+          f.write(audio_stream_chunk)
