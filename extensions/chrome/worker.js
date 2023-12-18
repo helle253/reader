@@ -8,7 +8,9 @@ chrome.runtime.onInstalled.addListener(function () {
       id: 'selection',
     },
   );
+});
 
+chrome.runtime.onStartup.addListener(() => {
   chrome.contextMenus.onClicked.addListener((_, tab) => {
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
