@@ -12,15 +12,13 @@ class Synthesizer:
     self.options = options or TTSOptions(voice=os.getenv("VOICE_URI"))
 
   def synthesize(self, text) -> Iterable[bytes]:
-    preprocessed_text = self.preprocess(text)
     for chunk in self.client.tts(
-      preprocessed_text,
+      text,
       self.options,
     ):
       yield chunk
 
-
-  def preprocess(self, text):
-    # Remove multiple concurrent newlines.
-    text = re.sub(r"\n{1,}", "\n", text)
-    return text
+  def synth_to_file(self, filename, text):
+    with open(filename, 'wb') as f:
+      for chunk in self.synthesize(text):
+        f.write(chunk)
