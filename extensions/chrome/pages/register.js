@@ -33,7 +33,7 @@ async function register(){
       "Content-type": "application/json; charset=UTF-8"
     }
   });
-  tokenPair = (await resp.json())["data"]
+  const tokenPair = (await resp.json())["data"]
   chrome.cookies.set({url: host, name: "tokenPair", value: JSON.stringify(tokenPair)})
   window.location.href = "index.html";
 }
