@@ -17,6 +17,12 @@ async function login(){
     }
   });
   const tokenPair = (await resp.json())["data"]
-  chrome.cookies.set({url: host, name: "tokenPair", value: JSON.stringify(tokenPair)})
+  const sevenDaysMs = 1000 * 60 * 60 * 24 * 7
+  chrome.cookies.set({
+    expirationDate: Date.now() + sevenDaysMs,
+    url: host,
+    name: "tokenPair",
+    value: JSON.stringify(tokenPair),
+    })
   window.location.href = "index.html";
 }
