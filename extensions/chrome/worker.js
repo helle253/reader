@@ -15,8 +15,8 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.runtime.onStartup.addListener(initializeListeners);
 
 function initializeListeners() {
-  chrome.contextMenus.onClicked.addListener((_, tab) => {
-    chrome.scripting.executeScript({
+  chrome.contextMenus.onClicked.addListener(async (_, tab) => {
+    await chrome.scripting.executeScript({
       target: { tabId: tab.id },
       files: ['./scripts/content/synthesize.js']
     })
