@@ -25,7 +25,6 @@ def chunk_paragraph(text) -> Iterable[str]:
     chunk += f' {sentence}'
 
 def chunk_text_selection(text) -> Iterable[str]:
-  paragraphs = to_paragraphs(text)
-  for paragraph in paragraphs:
+  for paragraph in to_paragraphs(text):
     for chunk in chunk_paragraph(paragraph):
       yield chunk
