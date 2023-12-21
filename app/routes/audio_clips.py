@@ -1,8 +1,10 @@
 import datetime
 import json
+import io
 from urllib.parse import urlparse
 from flask import Blueprint, jsonify, request, stream_with_context
 from flask_jwt_extended import get_jwt_identity, jwt_required
+from pydub import AudioSegment
 
 from app.models.user import User
 from app.synthesis.synthesizer import Synthesizer
@@ -28,15 +30,18 @@ def create():
   domain = parsed_url.netloc
   path = parsed_url.path.replace('/', '-')
   timestamp = datetime.datetime.now().isoformat()
-  filename = f'{current_user_id}-{domain}-{path}-{timestamp}.mp3'
 
   text = parsed["text"] or None
   if text is None: raise Exception("Please provide input")
 
   def generator():
-    with open(filename, 'ab') as f:
-      for text_chunk in chunk_text_selection(text):
+    segment = AudioSegment.silent(100)
+    for text_chunk in chunk_text_selection(text):
+      with io.BytesIO() as f:
         for audio_chunk in Synthesizer().synthesize(text_chunk):
           f.write(audio_chunk)
           yield audio_chunk
+        segment = segment + AudioSegment.from_wav(f)
+    filename = f'{current_user_id}-{domain}-{path}-{timestamp}.wav'
+    segment.export(filename, format='wav')
   return generator()
