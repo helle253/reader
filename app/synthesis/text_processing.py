@@ -40,7 +40,7 @@ def __chunkify(text_tokens, max_length):
     def split_and_chunkify(tokens):
         if not tokens:
             return
-        combined = ''.join(tokens)
+        combined = ' '.join(tokens)
         if len(combined) <= max_length:
             yield combined
             return
