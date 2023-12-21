@@ -5,7 +5,6 @@ from flask import Blueprint, jsonify, request, stream_with_context
 from flask_jwt_extended import get_jwt_identity, jwt_required
 
 from app.models.user import User
-from app.persistence.s3_helpers import S3UploadProcess
 from app.synthesis.synthesizer import Synthesizer
 from app.synthesis.text_processing import chunk_text_selection
 
