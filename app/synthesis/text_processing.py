@@ -22,12 +22,10 @@ def to_paragraphs(text) -> Iterable[str]:
 def chunk_paragraph(text) -> Iterable[str]:
   max_length = 2000
   if len(text) < max_length:
-    yield text
+    yield from to_sentences(text)
     return
 
-  sentences = to_sentences(text)
-
-  yield from __chunkify(sentences, max_length)
+  yield from __chunkify(to_sentences(text), max_length)
 
 def chunk_text_selection(text) -> Iterable[str]:
   for paragraph in to_paragraphs(text):
