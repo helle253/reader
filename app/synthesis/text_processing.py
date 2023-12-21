@@ -1,5 +1,5 @@
 import re
-from typing import Iterable, List
+from typing import Iterable
 
 from nltk.tokenize import sent_tokenize, word_tokenize
 
