@@ -4,7 +4,8 @@ from typing import Iterable, List
 from nltk.tokenize import sent_tokenize, word_tokenize
 
 def to_sentences(text) -> Iterable[str]:
-  return sent_tokenize(text)
+  for sentence in sent_tokenize(text):
+    yield from chunk_sentence(sentence)
 
 def chunk_sentence(sentence) -> Iterable[str]:
   max_length = 500
