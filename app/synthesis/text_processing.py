@@ -1,10 +1,19 @@
 import re
-from typing import Iterable
+from typing import Iterable, List
 
-from nltk.tokenize import sent_tokenize
+from nltk.tokenize import sent_tokenize, word_tokenize
 
 def to_sentences(text) -> Iterable[str]:
   return sent_tokenize(text)
+
+def chunk_sentence(sentence) -> Iterable[str]:
+  max_length = 500
+  if len(sentence) < max_length:
+    yield sentence
+    return
+  words = word_tokenize(sentence)
+
+  yield from __chunkify(words, max_length)
 
 def to_paragraphs(text) -> Iterable[str]:
   return [substr for substr in re.split(r'\n{1,}', text) if substr]
@@ -17,14 +26,32 @@ def chunk_paragraph(text) -> Iterable[str]:
 
   sentences = to_sentences(text)
 
-  chunk = ''
-  for sentence in sentences:
-    if len(chunk) + len(sentence) > max_length:
-      yield chunk
-      chunk = ''
-    chunk += f' {sentence}'
+  yield from __chunkify(sentences, max_length)
 
 def chunk_text_selection(text) -> Iterable[str]:
   for paragraph in to_paragraphs(text):
     for chunk in chunk_paragraph(paragraph):
       yield chunk
+
+def __chunkify(text_tokens, max_length):
+    """
+    Binary search to split a list of tokens into chunks,
+    where the combined length of each chunk is less than max_length.
+    """
+    def split_and_chunkify(tokens):
+        if not tokens:
+            return
+        combined = ''.join(tokens)
+        if len(combined) <= max_length:
+            yield combined
+            return
+
+        # Split the list in half and apply the same process to each half
+        middle = len(tokens) // 2
+        left_half = tokens[:middle]
+        right_half = tokens[middle:]
+
+        yield from split_and_chunkify(left_half)
+        yield from split_and_chunkify(right_half)
+
+    return split_and_chunkify(text_tokens)
