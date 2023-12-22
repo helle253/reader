@@ -2,8 +2,6 @@ import os
 from typing import Iterable
 from pyht import Client, TTSOptions
 
-from app.synthesis.text_processing import chunk_text_selection
-
 class Synthesizer:
   def __init__(self, client: Client | None = None, options: TTSOptions | None = None):
     self.client = client or Client(
