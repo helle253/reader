@@ -28,8 +28,7 @@ def chunk_paragraph(text) -> Iterable[str]:
 
 def chunk_text_selection(text) -> Iterable[str]:
   for paragraph in to_paragraphs(text):
-    for chunk in chunk_paragraph(paragraph):
-      yield chunk
+    yield from chunk_paragraph(paragraph)
 
 def __chunkify(text_tokens, max_length, separator_token=None):
     """
