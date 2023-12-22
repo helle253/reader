@@ -42,7 +42,7 @@ def create():
           f.write(audio_chunk)
           yield audio_chunk
         segment = segment + AudioSegment.from_wav(f)
-      segment = segment + AudioSegment.silent(500)
+      segment = segment + AudioSegment.silent(1000)
     filename = f'{current_user_id}-{domain}-{path}-{timestamp}.wav'
     segment.export(filename, format='wav')
   return generator()
