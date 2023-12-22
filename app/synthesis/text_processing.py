@@ -1,7 +1,7 @@
 import re
 from typing import Iterable
 
-from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.tokenize import sent_tokenize, word_tokenize, TreebankWordDetokenizer
 
 def to_sentences(text) -> Iterable[str]:
   for sentence in sent_tokenize(text):
@@ -12,9 +12,8 @@ def chunk_sentence(sentence) -> Iterable[str]:
   if len(sentence) < max_length:
     yield sentence
     return
-  words = word_tokenize(sentence)
 
-  yield from __chunkify(words, max_length)
+  yield from __chunkify(word_tokenize(sentence), max_length)
 
 def to_paragraphs(text) -> Iterable[str]:
   return [substr for substr in re.split(r'\n{1,}', text) if substr]
@@ -22,7 +21,7 @@ def to_paragraphs(text) -> Iterable[str]:
 def chunk_paragraph(text) -> Iterable[str]:
   max_length = 2000
   if len(text) < max_length:
-    yield from to_sentences(text)
+    yield TreebankWordDetokenizer().detokenize(list(to_sentences(text)))
     return
 
   yield from __chunkify(to_sentences(text), max_length)
@@ -40,7 +39,7 @@ def __chunkify(text_tokens, max_length):
     def split_and_chunkify(tokens):
         if not tokens:
             return
-        combined = ' '.join(tokens)
+        combined = TreebankWordDetokenizer().detokenize(tokens)
         if len(combined) <= max_length:
             yield combined
             return
