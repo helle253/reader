@@ -13,7 +13,7 @@ def chunk_sentence(sentence) -> Iterable[str]:
     yield sentence
     return
 
-  yield from __chunkify(word_tokenize(sentence), max_length)
+  yield from __chunkify(word_tokenize(sentence), max_length, separator_token='.')
 
 def to_paragraphs(text) -> Iterable[str]:
   return [substr for substr in re.split(r'\n{1,}', text) if substr]
@@ -31,7 +31,7 @@ def chunk_text_selection(text) -> Iterable[str]:
     for chunk in chunk_paragraph(paragraph):
       yield chunk
 
-def __chunkify(text_tokens, max_length):
+def __chunkify(text_tokens, max_length, separator_token=None):
     """
     Binary search to split a list of tokens into chunks,
     where the combined length of each chunk is less than max_length.
@@ -46,7 +46,7 @@ def __chunkify(text_tokens, max_length):
 
         # Split the list in half and apply the same process to each half
         middle = len(tokens) // 2
-        left_half = tokens[:middle]
+        left_half = tokens[:middle] if separator_token is None else [*tokens[:middle], separator_token]
         right_half = tokens[middle:]
 
         yield from split_and_chunkify(left_half)
