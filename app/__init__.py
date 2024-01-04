@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 from flask import Config, Flask
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
-from pyht import Client
 
 import nltk
 nltk.download('punkt')
@@ -14,12 +13,6 @@ from app.routes.auth import auth_bp
 from app.routes.audio_clips import audio_clips_bp
 
 load_dotenv()
-
-ht_client = Client(
-    user_id=os.getenv("PLAY_HT_USER_ID"),
-    api_key=os.getenv("PLAY_HT_API_KEY"),
-)
-
 migrate = Migrate()
 jwt = JWTManager()
 

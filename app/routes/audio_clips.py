@@ -41,7 +41,9 @@ def create():
         for audio_chunk in Synthesizer().synthesize(text_chunk):
           f.write(audio_chunk)
           yield audio_chunk
-        segment = segment + AudioSegment.from_wav(f)
+        # Rewind buffer
+        f.seek(0)
+        segment = segment + AudioSegment.from_file(f)
       segment = segment + AudioSegment.silent(1000)
     filename = f'{current_user_id}-{domain}-{path}-{timestamp}.wav'
     segment.export(filename, format='wav')
