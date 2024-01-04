@@ -4,9 +4,3 @@ body {
     justify-content: center;
     align-items: center;
 }
-
-button {
-    min-width: fit-content;
-    width: 50%;
-    white-space: nowrap;
-}
