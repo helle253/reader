@@ -1,4 +1,4 @@
-# substack_reader
+# reader
 
 ## To Run:
 
