@@ -1,12 +1,12 @@
 alembic==1.13.1
 Flask==3.0.0
-flask_jwt_extended==4.6.0
-flask_migrate==4.0.5
+Flask_JWT_Extended==4.6.0
+Flask_Migrate==4.0.5
 flask_sqlalchemy==3.1.1
 nltk==3.8.1
+openai==1.6.1
 psycopg==3.1.16
 pydub==0.25.1
-pyht==0.0.18
 python-dotenv==1.0.0
 smart_open==6.4.0
 SQLAlchemy==2.0.25

@@ -8,7 +8,7 @@ from pydub import AudioSegment
 
 from app.models.user import User
 from app.synthesis.synthesizer import Synthesizer
-from app.synthesis.text_processing import chunk_text_selection
+from app.synthesis.text_processing import process_text_selection
 
 audio_clips_bp = Blueprint('audio_clips', __name__)
 
@@ -36,7 +36,7 @@ def create():
 
   def generator():
     segment = AudioSegment.silent(100)
-    for text_chunk in chunk_text_selection(text):
+    for text_chunk in process_text_selection(text):
       with io.BytesIO() as f:
         for audio_chunk in Synthesizer().synthesize(text_chunk):
           f.write(audio_chunk)
